@@ -5,6 +5,4 @@ receivers:
 - name: 'telegram-bot'
   telegram_configs:
     - bot_token: --token--
-      api_url: https://api.telegram.org
       chat_id: --chat--
-      parse_mode: ''
