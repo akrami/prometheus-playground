@@ -1,3 +1,4 @@
 *_data/*
 !*_data/.keep
 alert_config/alertmanager.yml
+python_app/env
