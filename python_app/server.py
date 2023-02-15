@@ -1,7 +1,7 @@
 import http.server
 import random
 import time
-from prometheus_client import start_http_server, Counter, Gauge
+from prometheus_client import start_http_server, Counter, Gauge, Summary
 
 REQUESTS = Counter('http_requests_total', 'Total requests to the HTTP server')
 EXCEPTIONS = Counter('http_exceptions_total', 'Total number of exceptions')
@@ -9,9 +9,12 @@ EXCEPTIONS = Counter('http_exceptions_total', 'Total number of exceptions')
 INPROGRESS = Gauge('http_requests_inprogress', 'Total number of HTTP requests processing')
 LASTCALL = Gauge('http_requests_last_call', 'Last HTTP request timestamp')
 
+LATENCY = Summary('http_latency_seconds', 'Time for a request')
+
 class MyHandler(http.server.BaseHTTPRequestHandler):
     @EXCEPTIONS.count_exceptions()
     @INPROGRESS.track_inprogress()
+    @LATENCY.time()
     def do_GET(self):
         REQUESTS.inc()
         if(self.path.lower() == '/faulty'):
