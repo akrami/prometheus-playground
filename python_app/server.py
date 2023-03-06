@@ -24,6 +24,9 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
             if random.random() < 0.2:
                 raise Exception
             response = b'this could be faulty'
+        if(self.path.lower() == '/job'):
+            import job
+            response = b'job executed'
         else:
             response = b'this is main'
         self.send_response(200)
